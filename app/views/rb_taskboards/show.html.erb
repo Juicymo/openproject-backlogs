@@ -70,7 +70,7 @@ See doc/COPYRIGHT.rdoc for more details.
       </tr>
     </table>
 
-    <table id="impediments" class="board" cellspacing="0">
+    <!--<table id="impediments" class="board" cellspacing="0">
       <tr>
         <td><div class="label_sprint_impediments"><%= l(:label_sprint_impediments) %></div></td>
         <% if User.current.allowed_to?(:create_impediments, @project) %>
@@ -85,7 +85,7 @@ See doc/COPYRIGHT.rdoc for more details.
           </td>
         <% end %>
       </tr>
-    </table>
+    </table>-->
 
     <table id="tasks" class="board" cellspacing="0">
       <% @sprint.stories(@project).each do |story| %>
