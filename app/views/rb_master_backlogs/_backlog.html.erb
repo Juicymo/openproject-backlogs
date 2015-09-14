@@ -35,6 +35,8 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% folded = current_user.backlogs_preference(:versions_default_fold_state) == "closed" %>
+<% has_icon = backlog.stories.any? and has_type_icon?(backlog.stories.first) ? true : false %>
+<% icon_custom_field_id = type_icon_field_id(backlog.stories.first) %>
 <div class="backlog" id="backlog_<%= backlog.sprint.id %>">
   <div class="header">
     <%= render_backlog_menu backlog %>
@@ -50,7 +52,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
       <%= render :partial => "rb_stories/story",
                  :locals => { :story => story,
-                              :higher_item => higher_item } %>
+                              :higher_item => higher_item,
+                              :has_type_icon => has_icon,
+                              :icon_custom_field_id => icon_custom_field_id } %>
     <% end %>
   </ul>
 </div>

@@ -42,6 +42,12 @@ See doc/COPYRIGHT.rdoc for more details.
                                      :project_id => @project) %>
 <% end %>
 
+<ul class="action_menu_main legacy-actions-main">
+<% available_story_types.each do |type| %>
+  <li><%= type_icon(type.id, 0) %> <%= type.name %></li>
+<% end %>
+</ul>
+
 <div class='contextual'></div>
 <%= toolbar title: l(:label_backlogs) %>
 

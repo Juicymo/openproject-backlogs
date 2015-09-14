@@ -131,8 +131,40 @@ module RbCommonHelper
     story.type_id.to_s
   end
   
-  def icon(story)
-    p story.available_custom_fields
+  def has_type_icon?(story)
+    #story.available_custom_fields.select{ |f| f.id == 13 }.first.present?
+    true
+  end
+  
+  def type_icon_field_id(story)
+    13
+  end
+  
+  def type_icon(type_id, icon_custom_field_id)
+    css_class = "fa-question"
+    case type_id
+      when 1
+        css_class = "fa-question"
+      when 2
+        css_class = "fa-bug"
+      when 4
+        css_class = "fa-life-ring"
+      when 8
+        css_class = "fa-comments"
+      when 9
+        css_class = "fa-map-signs"
+      when 10
+        css_class = "fa-ticket"
+      when 16
+        css_class = "fa-calendar-check-o"
+      when 17
+        css_class = "fa-map"
+      else
+        css_class = "fa-thumb-tack"
+    end
+    
+    #"<i class=\"fa #{story.custom_field_values[icon_custom_field_id]}\"></i>".html_safe
+    "<i class=\"fa #{css_class}\"></i>".html_safe
   end
 
   def type_name_or_empty(story)

@@ -34,6 +34,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
+<% has_type_icon = false if local_assigns[:has_type_icon].nil? %>
+
 <li class="model story <%= mark_if_closed(story) %> <%= cycle('odd', 'even', :name => "stories") %>" id="<%= story_html_id_or_empty(story) %>">
   <div class="id">
     <div class="t"><%= work_package_link_or_empty(story) %></div>
@@ -45,7 +47,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <div class="v"><%= status_id_or_default(story) %></div>
   </div>
   <div class="type_id editable" fieldtype="select" fieldname="type_id" fieldorder="1" field_id=<%= story.id %> style="font-size:smaller;">
-    <div class="t"><%= icon(story) %> <%= type_name_or_empty(story) %>: </div>
+    <div class="t"><%= type_icon(story.type_id, icon_custom_field_id) if has_type_icon %> </div>
     <div class="v"><%= type_id_or_empty(story) %></div>
   </div>
   <div class="subject editable ellipsis" fieldname="subject" fieldorder="2" title="<%= h story.subject %>" field_id=<%= story.id %> style="font-size:smaller;"><%=h story.subject %></div>

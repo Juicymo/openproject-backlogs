@@ -59,7 +59,7 @@ module RbMasterBacklogsHelper
     if backlog.sprint_backlog?
       items.merge!(sprint_backlog_menu_items_for(backlog))
     end
-
+    
     menu = []
     [:new_story, :stories_tasks, :task_board, :burndown, :cards, :wiki, :configs, :properties].each do |key|
       menu << items[key] if items.keys.include?(key)
