@@ -130,6 +130,10 @@ module RbCommonHelper
   def type_id_or_empty(story)
     story.type_id.to_s
   end
+  
+  def icon(story)
+    p story.available_custom_fields
+  end
 
   def type_name_or_empty(story)
     story.type.nil? ? '' : h(backlogs_types_by_id[story.type_id].name)
