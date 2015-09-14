@@ -166,6 +166,10 @@ module RbCommonHelper
     #"<i class=\"fa #{story.custom_field_values[icon_custom_field_id]}\"></i>".html_safe
     "<i class=\"fa #{css_class}\"></i>".html_safe
   end
+  
+  def category_tag(category)
+    "<strong class=\"category-tag\">#{category.name}</strong>".html_safe
+  end
 
   def type_name_or_empty(story)
     story.type.nil? ? '' : h(backlogs_types_by_id[story.type_id].name)

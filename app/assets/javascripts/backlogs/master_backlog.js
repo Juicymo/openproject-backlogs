@@ -35,6 +35,11 @@
 
 // Initialize the backlogs after DOM is loaded
 jQuery(function ($) {
+  
+  jQuery.Color.fn.contrastColor = function() {
+      var r = this._rgba[0], g = this._rgba[1], b = this._rgba[2];
+      return (((r*299)+(g*587)+(b*144))/1000) >= 131.5 ? "black" : "white";
+  };
 
   // Initialize each backlog
   $('.backlog').each(function (index) {
@@ -54,5 +59,18 @@ jQuery(function ($) {
   $('.backlog .toggler').on('click',function(){
     $(this).toggleClass('closed');
     $(this).parents('.backlog').find('ul.stories').toggleClass('closed');
+  });
+  
+  $('.category-tag').each(function (index) {
+    // 'this' refers to an element with class="category-tag"
+    var text = $(this).html();
+    var sum = 0;
+    var count = text.length;
+    for (i = 0; i < count; i++) {
+        sum += text.charCodeAt(i) + 42;
+    }
+    var hue = (sum % (255 - count)) + count;
+    var bgColor = jQuery.Color({ hue: hue, saturation: 0.5, lightness: 0.8, alpha: 1 });
+    $(this).css({backgroundColor: bgColor, color: bgColor.contrastColor()});
   });
 });
