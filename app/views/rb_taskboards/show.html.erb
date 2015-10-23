@@ -43,13 +43,26 @@ See doc/COPYRIGHT.rdoc for more details.
                                      :sprint_id => @sprint) %>
 <% end %>
 
+<ul class="action_menu_main legacy-actions-main">
+  <li><em>Legend </em></li>
+  <% backlogs_types.each do |type| %>
+  <li><%= type_icon(type.id, 0) if type.present? %> <%= type.name %></li>
+  <% end %>
+</ul>
+
 <%= toolbar title: h(@sprint.name) do %>
   <% if @sprint.has_burndown? %>
-    <li class="toolbar-item">
+    <!--<li class="toolbar-item">
       <label for="col_width_input"><%= l('backlogs.column_width') %></label>
     </li>
     <li class="toolbar-item" id="col_width">
       <input type="text" id="col_width_input">
+    </li>-->
+    <li class="toolbar-item">
+      <a href="<%= backlogs_project_backlogs_path(@project) %>" title="<%= l('backlogs.back_to_backlog_hint') %>" class="button"><i class="fa fa-level-up"></i> <%= l('backlogs.back_to_backlog') %></a>
+    </li>
+    <li class="toolbar-item">
+      <a href="#" title="<%= l('backlogs.generate_tasks_hint') %>" class="button"><i class="fa fa-cogs"></i> <%= l('backlogs.generate_tasks') %></a>
     </li>
     <li class="toolbar-item">
       <%= show_burndown_link(@sprint) %>
@@ -87,13 +100,14 @@ See doc/COPYRIGHT.rdoc for more details.
       </tr>
     </table>-->
 
-    <table id="tasks" class="board" cellspacing="0">
+    <table id="tasks" class="board userStorySelectable" cellspacing="0">
       <% @sprint.stories(@project).each do |story| %>
         <tr class="<%= story_html_id_or_empty(story) %>">
           <td>
-            <div class="story <%= mark_if_closed(story) %>" id="<%= story_html_id_or_empty(story) %>">
+            <div class="story ui-widget-content <%= mark_if_closed(story) %>" id="<%= story_html_id_or_empty(story) %>">
               <div class='story-bar'>
                 <div class="status">
+                  <%= type_icon(story.type.id, 0) if story.present? and story.type.present? %>
                   <%= story.status.name %>
                 </div>
                 <div class="id">
@@ -103,10 +117,11 @@ See doc/COPYRIGHT.rdoc for more details.
               <div class="subject"><%= story.subject %></div>
               <div class='story-footer'>
                 <div class="assigned_to_id">
+                  <%= category_tag(story.category, true) unless story.category.nil? %>
                   <% if story.assigned_to.present? %>
                     <%= link_to_user(story.assigned_to) %>
                   <% else %>
-                    <em><%= l('backlogs.unassigned') %></em>
+                    <!--<em><%= l('backlogs.unassigned') %></em>-->
                   <% end %>
                 </div>
                 <div class="story-points">

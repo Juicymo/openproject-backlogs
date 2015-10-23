@@ -50,7 +50,43 @@ See doc/COPYRIGHT.rdoc for more details.
 </ul>
 
 <div class='contextual'></div>
-<%= toolbar title: l(:label_backlogs) %>
+<%= toolbar title: l(:label_backlogs) do %>
+  <% current_backlog = @sprint_backlogs.first %>
+  <% if current_backlog.present? %>
+  <li class="toolbar-item">
+    <%= link_to({
+                  :controller => '/rb_taskboards',
+                  :action => 'show',
+                  :project_id => @project,
+                  :sprint_id => current_backlog.sprint
+                },
+                :title => l('backlogs.current_spring_taskboard_hint'),
+                :class => 'button'
+                ) do
+    %>
+      <i class="fa fa-thumb-tack"></i> <%= l('backlogs.current_spring_taskboard') %>
+    <% end %>
+  </li>
+  <li class="toolbar-item">
+    <%= link_to('#',
+                :title => l('backlogs.new_sprint_hint'),
+                :class => 'button'
+                ) do
+    %>
+      <i class="fa fa-plus"></i> <%= l('backlogs.new_sprint') %>
+    <% end %>
+  </li>
+  <li class="toolbar-item">
+    <%= link_to('#',
+                :title => l('backlogs.initial_setup_hint'),
+                :class => 'button disabled'
+                ) do
+    %>
+      <i class="fa fa-cogs"></i> <%= l('backlogs.initial_setup') %>
+    <% end %>
+  </li>
+  <% end %>
+<% end %>
 
 <div id="rb">
   <div id="backlogs_container" class="clearfix">

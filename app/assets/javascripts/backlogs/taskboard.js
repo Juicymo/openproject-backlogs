@@ -66,6 +66,12 @@ RB.Taskboard = (function ($) {
 
       this.initializeNewButtons();
       this.initializeSortables();
+      
+      this.initializeSelectables();
+    },
+    
+    initializeSelectables : function () {
+      this.$.find('.userStorySelectable').selectable();
     },
 
     initializeNewButtons : function () {
@@ -186,7 +192,7 @@ RB.Taskboard = (function ($) {
       }
       $("#col_width input").val(w);
       RB.UserPreferences.set('taskboardColWidth', w);
-      $(".swimlane").width(this.colWidthUnit * w).css('min-width', this.colWidthUnit * w);
+      //$(".swimlane").width(this.colWidthUnit * w).css('min-width', this.colWidthUnit * w);
     }
   });
 }(jQuery));

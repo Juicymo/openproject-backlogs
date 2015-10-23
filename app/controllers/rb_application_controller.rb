@@ -38,6 +38,7 @@ class RbApplicationController < ApplicationController
   unloadable
 
   helper :rb_common
+  helper :avatar
 
   before_filter :load_sprint_and_project, :check_if_plugin_is_configured, :authorize
 

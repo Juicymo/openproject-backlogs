@@ -41,7 +41,7 @@ module RbCommonHelper
   end
 
   def assignee_name_or_empty(story)
-    story.blank? || story.assigned_to.blank? ? "" : "#{story.assigned_to.firstname} #{story.assigned_to.lastname}"
+    story.blank? || story.assigned_to.blank? ? "" : avatar(story.assigned_to, class: 'avatar-mini', title: "#{story.assigned_to.firstname} #{story.assigned_to.lastname}").html_safe
   end
 
   def blocks_ids(ids)
@@ -167,7 +167,7 @@ module RbCommonHelper
     "<i class=\"fa #{css_class}\"></i>".html_safe
   end
   
-  def category_tag(category)
+  def category_tag(category, force_styles = false)
     "<strong class=\"category-tag\">#{category.name}</strong>".html_safe
   end
 
@@ -183,7 +183,6 @@ module RbCommonHelper
     return '' if d.blank?
     d.strftime("%B %d, %Y %H:%M:%S") + '.' + (d.to_f % 1 + add).to_s.split('.')[1]
   end
-
 
   def remaining_hours(item)
     item.remaining_hours.blank? || item.remaining_hours==0 ? "" : item.remaining_hours
@@ -220,7 +219,7 @@ module RbCommonHelper
   def show_burndown_link(sprint)
     ret = ""
 
-    ret += link_to(l('backlogs.show_burndown_chart'),
+    ret += link_to("<i class=\"fa fa-line-chart\"></i> #{l('backlogs.show_burndown_chart')}".html_safe,
                    {},
                    class: 'show_burndown_chart button')
 
