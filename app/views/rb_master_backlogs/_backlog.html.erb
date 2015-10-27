@@ -34,10 +34,13 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% folded = backlog.closed? or current_user.backlogs_preference(:versions_default_fold_state) == "closed" %>
+<% folded = backlog.sprint.closed? or current_user.backlogs_preference(:versions_default_fold_state) == "closed" %>
 <% has_icon = backlog.stories.any? and has_type_icon?(backlog.stories.first) ? true : false %>
 <% icon_custom_field_id = type_icon_field_id(backlog.stories.first) %>
-<div class="backlog" id="backlog_<%= backlog.sprint.id %>">
+<div class="backlog<%= backlog.sprint.closed? ? ' closed' : '' %><%= backlog.sprint.name == 'Review' ? ' review' : '' %>"
+     id="backlog_<%=
+    backlog
+                                                                                                           .sprint.id %>">
   <div class="header">
     <%= render_backlog_menu backlog %>
     <%= render :partial => "rb_sprints/sprint", :object => backlog.sprint %>

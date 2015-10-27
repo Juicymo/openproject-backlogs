@@ -192,6 +192,14 @@
         overflow-x: hidden
         &.closed
           display: none
+      &.closed
+        alpha: 0.5
+      &.review
+        border-style: dashed
+        .header
+          background-color: white
+          .menu
+            border-right: none
     .stories .story
       cursor: move
       display: block
@@ -216,12 +224,15 @@
         background-color: rgb(254, 248, 168)
       .id
         float: left
-        margin-left: 1em
-        margin-right: 1em
+        margin-left: 0.1em
+        margin-right: 0.3em
         padding: 5px 2px 4px 2px
         width: 4em
         text-align: right
         white-space: nowrap
+        i.fa
+          margin-right: 0.1em
+          color: silver
       .type_id .t
         float: left
         padding: 5px 2px 4px 2px
@@ -230,18 +241,17 @@
       .subject
         overflow: hidden
         margin-left: 4em
-        padding: 5px 2px 4px 2px
+        padding: 7px 2px 4px 2px
         white-space: nowrap
         min-height: 1em
       .status_id
         float: right
-        padding: 5px 2px 4px 2px
+        padding: 7px 2px 4px 2px
         margin-left: 1em
-        width: 68px
       .story_points
         float: right
         padding: 5px 3px 4px 2px
-        margin-right: 2.1em
+        margin-right: 0.1em
         width: 28px
         min-height: 14px
         text-align: right
@@ -313,17 +323,17 @@
     .story_points.editor
       float: right
       width: 5%
-      
+
 .category-tag
   -webkit-border-radius: 20px
   -moz-border-radius: 20px
   border-radius: 20px
   padding: 2px 10px
-  
+
 div.status_id
   div.t
     font-size: smaller
-  
+
 /* In-place Story Editor */
 
 .controller-rb_master_backlogs.action-show
