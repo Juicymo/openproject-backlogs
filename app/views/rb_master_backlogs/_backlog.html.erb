@@ -34,7 +34,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% folded = current_user.backlogs_preference(:versions_default_fold_state) == "closed" %>
+<% folded = backlog.closed? or current_user.backlogs_preference(:versions_default_fold_state) == "closed" %>
 <% has_icon = backlog.stories.any? and has_type_icon?(backlog.stories.first) ? true : false %>
 <% icon_custom_field_id = type_icon_field_id(backlog.stories.first) %>
 <div class="backlog" id="backlog_<%= backlog.sprint.id %>">
