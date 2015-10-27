@@ -61,14 +61,14 @@ See doc/COPYRIGHT.rdoc for more details.
                   :sprint_id => current_backlog.sprint
                 },
                 :title => l('backlogs.current_spring_taskboard_hint'),
-                :class => 'button'
+                :class => 'button -alt-highlight'
                 ) do
     %>
       <i class="fa fa-thumb-tack"></i> <%= l('backlogs.current_spring_taskboard') %>
     <% end %>
   </li>
   <li class="toolbar-item">
-    <%= link_to('#',
+    <%= link_to(new_project_version_path(@project),
                 :title => l('backlogs.new_sprint_hint'),
                 :class => 'button'
                 ) do
