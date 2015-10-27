@@ -42,7 +42,9 @@ class Backlog
   def self.owner_backlogs(project, options = {} )
     options.reverse_merge!({ :limit => nil })
 
-    backlogs = Sprint.apply_to(project).open.displayed_right(project).order_by_name
+    backlogs = Sprint.apply_to(project).open.displayed_right(project).order_by_name.sort_by do |b|
+      b.name == 'Review' ? '0' : b.name
+    end
 
     stories_by_sprints = Story.backlogs(project.id, backlogs.map(&:id))
 
