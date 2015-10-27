@@ -38,12 +38,23 @@ require 'date'
 class Sprint < Version
   unloadable
 
+  scope :closed, conditions: { status: 'closed' }
+
   scope :open_sprints, lambda { |project|
     {
       :order => "COALESCE(start_date, CAST('4000-12-30' as date)) ASC, COALESCE(effective_date, CAST('4000-12-30' as date)) ASC",
       :conditions => [ "versions.status = 'open' and versions.project_id = ?", project.id ]
     }
   }
+
+  scope :closed_sprints, lambda { |project|
+     {
+         :order => "COALESCE(effective_date, CAST('4000-12-30' as date)) DESC, COALESCE(start_date, CAST
+('4000-12-30' as
+ date)) DESC",
+         :conditions => [ "versions.status = 'closed' and versions.project_id = ?", project.id ]
+     }
+   }
 
   # null last ordering
   scope :order_by_date, :order => "COALESCE(start_date, CAST('4000-12-30' as date)) ASC, COALESCE(effective_date, CAST('4000-12-30' as date)) ASC"

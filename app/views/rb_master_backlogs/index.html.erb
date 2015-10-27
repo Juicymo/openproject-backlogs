@@ -50,7 +50,7 @@ See doc/COPYRIGHT.rdoc for more details.
 </ul>
 
 <div class='contextual'></div>
-<%= toolbar title: l(:label_backlogs) do %>
+<%= toolbar title: l(:label_backlogs_overview) do %>
   <% current_backlog = @sprint_backlogs.first %>
   <% if current_backlog.present? %>
   <li class="toolbar-item">
@@ -67,25 +67,25 @@ See doc/COPYRIGHT.rdoc for more details.
       <i class="fa fa-thumb-tack"></i> <%= l('backlogs.current_spring_taskboard') %>
     <% end %>
   </li>
-  <li class="toolbar-item">
-    <%= link_to(new_project_version_path(@project),
-                :title => l('backlogs.new_sprint_hint'),
-                :class => 'button'
-                ) do
-    %>
-      <i class="fa fa-plus"></i> <%= l('backlogs.new_sprint') %>
-    <% end %>
-  </li>
-  <li class="toolbar-item">
-    <%= link_to('#',
-                :title => l('backlogs.initial_setup_hint'),
-                :class => 'button disabled'
-                ) do
-    %>
-      <i class="fa fa-cogs"></i> <%= l('backlogs.initial_setup') %>
-    <% end %>
-  </li>
   <% end %>
+    <li class="toolbar-item">
+      <%= link_to(new_project_version_path(@project),
+                  :title => l('backlogs.new_sprint_hint'),
+                  :class => 'button'
+          ) do
+      %>
+          <i class="fa fa-plus"></i> <%= l('backlogs.new_sprint') %>
+      <% end %>
+    </li>
+    <li class="toolbar-item">
+      <%= link_to('#',
+                  :title => l('backlogs.initial_setup_hint'),
+                  :class => 'button disabled'
+          ) do
+      %>
+          <i class="fa fa-cogs"></i> <%= l('backlogs.initial_setup') %>
+      <% end %>
+    </li>
 <% end %>
 
 <div id="rb">
@@ -95,6 +95,10 @@ See doc/COPYRIGHT.rdoc for more details.
     </div>
     <div id="sprint_backlogs_container">
       <%= render :partial => 'backlog', :collection => @sprint_backlogs %>
+      <% if @closed_sprint_backlogs.any? %>
+      <h3>Closed Sprints</h3>
+      <%= render :partial => 'backlog', :collection => @closed_sprint_backlogs %>
+      <% end %>
     </div>
   </div>
 
