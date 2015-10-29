@@ -66,10 +66,10 @@ RB.Taskboard = (function ($) {
 
       this.initializeNewButtons();
       this.initializeSortables();
-      
-      this.initializeSelectables();
+
+      //this.initializeSelectables();
     },
-    
+
     initializeSelectables : function () {
       this.$.find('.userStorySelectable').selectable();
     },
