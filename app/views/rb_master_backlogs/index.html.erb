@@ -50,7 +50,7 @@ See doc/COPYRIGHT.rdoc for more details.
 </ul>
 
 <div class='contextual'></div>
-<%= toolbar title: l(:label_backlogs_overview) do %>
+<%= toolbar title: "<i class=\"fa fa-tachometer\"></i> #{l(:label_backlogs_overview)}" do %>
   <% current_backlog = @sprint_backlogs.first %>
   <% if current_backlog.present? %>
   <li class="toolbar-item">

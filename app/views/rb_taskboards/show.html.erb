@@ -48,9 +48,10 @@ See doc/COPYRIGHT.rdoc for more details.
   <% backlogs_types.each do |type| %>
   <li><%= type_icon(type.id, 0) if type.present? %> <%= type.name %></li>
   <% end %>
+  <li class="sprint-date"><%= @sprint.start_date.strftime("%d/%m/%Y") %> - <%= @sprint.effective_date.strftime("%d/%m/%Y") %></li>
 </ul>
 
-<%= toolbar title: h(@sprint.name) do %>
+<%= toolbar title: h("<i class=\"fa fa-thumb-tack\"></i> #{@sprint.name}".html_safe) do %>
   <% if @sprint.has_burndown? %>
     <!--<li class="toolbar-item">
       <label for="col_width_input"><%= l('backlogs.column_width') %></label>
@@ -111,7 +112,7 @@ See doc/COPYRIGHT.rdoc for more details.
                   <%= story.status.name %>
                 </div>
                 <div class="id">
-                  <%= work_package_link_or_empty(story) %>
+                  #<%= work_package_link_or_empty(story) %>
                 </div>
               </div>
               <div class="subject"><%= story.subject %></div>
