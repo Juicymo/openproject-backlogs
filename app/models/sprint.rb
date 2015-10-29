@@ -49,15 +49,14 @@ class Sprint < Version
 
   scope :closed_sprints, lambda { |project|
      {
-         :order => "COALESCE(effective_date, CAST('4000-12-30' as date)) DESC, COALESCE(start_date, CAST
-('4000-12-30' as
- date)) DESC",
+         :order => "COALESCE(effective_date, CAST('4000-12-30' as date)) DESC, COALESCE(start_date, CAST('4000-12-30' as date)) DESC",
          :conditions => [ "versions.status = 'closed' and versions.project_id = ?", project.id ]
      }
    }
 
   # null last ordering
   scope :order_by_date, :order => "COALESCE(start_date, CAST('4000-12-30' as date)) ASC, COALESCE(effective_date, CAST('4000-12-30' as date)) ASC"
+  scope :order_by_closed_date, :order => "COALESCE(effective_date, CAST('4000-12-30' as date)) DESC, COALESCE(start_date, CAST('4000-12-30' as date)) DESC"
   scope :order_by_name, :order => "#{Version.table_name}.name ASC"
 
   scope :apply_to, lambda { |project| {:include => :project,
