@@ -60,7 +60,7 @@ class Backlog
   end
 
   def self.closed_sprint_backlogs(project)
-    sprints = Sprint.apply_to(project).closed.displayed_left(project).order_by_date
+    sprints = Sprint.apply_to(project).closed.displayed_left(project).order_by_closed_date
 
     stories_by_sprints = Story.backlogs(project.id, sprints.map(&:id))
 
