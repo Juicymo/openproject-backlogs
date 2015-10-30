@@ -68,7 +68,7 @@ RB.Taskboard = (function ($) {
       this.initializeSortables();
 
       this.colorizeCategories();
-      //this.initializeSelectables();
+      this.initializeSelectables();
     },
 
       colorizeCategories : function () {
@@ -87,7 +87,139 @@ RB.Taskboard = (function ($) {
       },
 
     initializeSelectables : function () {
-      this.$.find('.userStorySelectable').selectable();
+        $('.selectableFaces').selectable({
+            filter: "a.face",
+            stop: function(event, ui) {
+                var faces = $("li.member-faces").first();
+                var controls = $("div.controls").first();
+                var hint = $("div.controls span.hint").first();
+                var buttons = $("div.controls a");
+
+                controls.attr("data-members", "");
+                var selectedItems = $(".ui-selected", this);
+                var count = selectedItems.size();
+
+                if (count > 0) {
+                    hint.css('display', 'none');
+                    buttons.css('display', 'inline');
+
+                    var ids = [];
+                    selectedItems.each(function() {
+                        var item = $(this);
+                        var itemId = item.attr("data-user-id");
+                        ids.push(itemId);
+                    });
+                    controls.attr("data-members", ids.join());
+                }
+                else {
+                    buttons.css('display', 'none');
+                    hint.css('display', 'inline');
+                }
+            }
+        });
+
+      var currentCol = 0;
+
+      this.$.find('.userStorySelectable').selectable({
+          filter: "td",
+          start: function(event, ui) {
+              $("td").removeClass("ui-selected");
+          },
+          stop: function(event, ui) {
+              var faces = $("li.member-faces").first();
+              var controls = $("div.controls").first();
+              controls.attr("data-user-stories", "");
+              var selectedItems = $(".ui-selected", this);
+              var count = selectedItems.size();
+
+              if (count > 0) {
+                  faces.fadeIn();
+
+                  var ids = [];
+                  selectedItems.each(function() {
+                      var item = $(this);
+                      var itemId = item.children("div.story").first().attr("id").replace(/story_/g, '');
+                      ids.push(itemId);
+                  });
+                  controls.attr("data-user-stories", ids.join());
+              }
+              else {
+                  faces.fadeOut();
+              }
+
+              //Reset selector.
+              //currentCol = undefined;
+          },
+          selecting: function(event, ui) {
+
+              if (currentCol === undefined) {
+                  currentCol = $(ui.selecting).attr('data-col');
+              }
+
+              var nthChild = parseInt(currentCol) + 1; //Add one as nthChild is not zero index
+
+              for (var i = 1; i <= 9; i++) {
+
+                  if (i != nthChild) {
+                      $("td.ui-selecting:nth-child(" + i + ")").each(function() {
+                          $(this).removeClass("ui-selecting");
+                      });
+                  }
+              }
+              ;
+          }
+      });
+
+      this.$.find('td.stories-column-header a.select-all').click(function() {
+          var selectableItems = $(".userStorySelectable td[data-col='0']");
+
+          selectableItems.each(function() {
+              var item = $(this);
+
+              if (item.hasClass("ui-selected")) {
+                  item.removeClass("ui-selected");
+              }
+              else {
+                  item.addClass("ui-selected");
+              }
+          });
+
+          var faces = $("li.member-faces").first();
+          var controls = $("div.controls").first();
+          controls.attr("data-user-stories", "");
+          var selectedItems = $(".userStorySelectable td[data-col='0'].ui-selected");
+          var count = selectedItems.size();
+
+          if (count > 0) {
+              faces.fadeIn();
+
+              var ids = [];
+              selectedItems.each(function() {
+                  var item = $(this);
+                  var itemId = item.children("div.story").first().attr("id").replace(/story_/g, '');
+                  ids.push(itemId);
+              });
+              controls.attr("data-user-stories", ids.join());
+          }
+          else {
+              faces.fadeOut();
+          }
+      });
+
+        $('li.member-faces div.controls a.cancel').click(function() {
+            var selectedItems = $(".userStorySelectable .ui-selected, .selectableFaces .ui-selected");
+
+            selectedItems.each(function() {
+                var item = $(this);
+
+                item.removeClass("ui-selected");
+            });
+
+            var controls = $("div.controls").first();
+            controls.attr("data-user-stories", "");
+            var faces = $("li.member-faces").first();
+            faces.fadeOut();
+        });
     },
 
     initializeNewButtons : function () {

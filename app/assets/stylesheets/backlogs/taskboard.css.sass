@@ -29,6 +29,9 @@
 @import open_project_global/all
 @import helpers/functions
 
+$juicymo_orange:                                #ff6b29 !default
+$juicymo_yellow:                                #ffb33f !default
+
 @mixin story-header
   background-color: #FFFFFF
   font-size: 1rem - rem-calc(5px)
@@ -162,7 +165,7 @@
   .work_package.prevent_edit
     cursor: default
   .placeholder
-    background-color: #FFFF00
+    background-color: $juicymo_yellow
     border: 1px dashed #333300
     height: 78px
     /*width: 83px*/
@@ -287,7 +290,7 @@
       *
         display: none
     .placeholder
-      background-color: #FFFF00
+      background-color: $juicymo_yellow
       border: 1px dashed #333300
       height: 19px
       width: 19px
@@ -297,7 +300,10 @@
     left: -500px
     position: absolute
   #spinner
+    display: block
     background-image: image-url("loading.gif")
+    margin: 2em
+    padding: 2em
   #warning
     background-image: image-url("webalys/warning.png")
 
@@ -345,8 +351,11 @@
       @include story-footer
       @include ellipsis
     .story-points
+      color: gray
       margin-top: 2px
       float: right
+      font-size: smaller
+
 .work_package
   .assigned_to_id.editable
     @include story-footer
@@ -382,9 +391,9 @@ ul.legacy-actions-main>li.sprint-date
   margin-top: 1em
 
 .userStorySelectable .ui-selecting
-  background: #FECA40
+  background: $juicymo_yellow
 .userStorySelectable .ui-selected
-  background: #F39814
+  background: $juicymo_orange
   color: white
 
 #toolbar-items li.toolbar-item.member-faces
@@ -394,10 +403,10 @@ ul.legacy-actions-main>li.sprint-date
 #toolbar-items li.toolbar-item.member-faces a
   padding: 5px 1px 9px 1px
 
-#toolbar-items li.toolbar-item.member-faces a img
-  opacity: 0.5
+#toolbar-items li.toolbar-item.member-faces a
+  opacity: 0.25
 
-#toolbar-items li.toolbar-item.member-faces a img:hover
+#toolbar-items li.toolbar-item.member-faces a:hover
   opacity: 1
 
 #toolbar-items li.toolbar-item.member-faces .controls
@@ -407,6 +416,30 @@ ul.legacy-actions-main>li.sprint-date
 #toolbar-items li.toolbar-item.member-faces .controls a.ok
   font-weight: bold
 
+#toolbar-items li.toolbar-item.member-faces .controls span.hint
+  color: gray
+  opacity: 1
+
+#toolbar-items li.toolbar-item.member-faces .controls a
+  color: black
+  opacity: 1
+
 #toolbar-items li.toolbar-item.member-faces .controls a:hover
   text-decoration: none
+
+#toolbar-items li.toolbar-item.member-faces.selectableFaces a.ui-selecting
+  opacity: 0.75
+#toolbar-items li.toolbar-item.member-faces.selectableFaces a.ui-selected
+  opacity: 1
+
+#taskboard a.select-all
+  color: silver
+  font-size: smaller
+  margin-left: 1em
+
+#taskboard a.select-all:hover
+  color: $juicymo_orange
+
+#taskboard td.stories-column-header:hover a.select-all
+  color: black
 
