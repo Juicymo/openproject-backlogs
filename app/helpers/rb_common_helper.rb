@@ -130,17 +130,17 @@ module RbCommonHelper
   def type_id_or_empty(story)
     story.type_id.to_s
   end
-  
+
   def has_type_icon?(story)
     #story.available_custom_fields.select{ |f| f.id == 13 }.first.present?
     true
   end
-  
+
   def type_icon_field_id(story)
     13
   end
-  
-  def type_icon(type_id, icon_custom_field_id)
+
+  def type_icon_class(type_id)
     css_class = "fa-question"
     case type_id
       when 1
@@ -162,11 +162,14 @@ module RbCommonHelper
       else
         css_class = "fa-thumb-tack"
     end
-    
-    #"<i class=\"fa #{story.custom_field_values[icon_custom_field_id]}\"></i>".html_safe
-    "<i class=\"fa #{css_class}\"></i>".html_safe
+
+    css_class
   end
-  
+
+  def type_icon(type_id, icon_custom_field_id)
+    "<i class=\"fa #{type_icon_class(type_id)}\"></i>".html_safe
+  end
+
   def category_tag(category, force_styles = false)
     "<strong class=\"category-tag\">#{category.name}</strong>".html_safe
   end

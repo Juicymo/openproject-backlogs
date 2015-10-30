@@ -35,7 +35,7 @@
 
 // Initialize the backlogs after DOM is loaded
 jQuery(function ($) {
-  
+
   jQuery.Color.fn.contrastColor = function() {
       var r = this._rgba[0], g = this._rgba[1], b = this._rgba[2];
       return (((r*299)+(g*587)+(b*144))/1000) >= 131.5 ? "black" : "white";
@@ -60,17 +60,20 @@ jQuery(function ($) {
     $(this).toggleClass('closed');
     $(this).parents('.backlog').find('ul.stories').toggleClass('closed');
   });
-  
-  $('.category-tag').each(function (index) {
-    // 'this' refers to an element with class="category-tag"
-    var text = $(this).html();
-    var sum = 0;
-    var count = text.length;
-    for (i = 0; i < count; i++) {
-        sum += text.charCodeAt(i) + 42;
-    }
-    var hue = (sum % (255 - count)) + count;
-    var bgColor = jQuery.Color({ hue: hue, saturation: 0.5, lightness: 0.8, alpha: 1 });
-    $(this).css({backgroundColor: bgColor, color: bgColor.contrastColor()});
-  });
+
+    var tooltips = $("li.model.story div.subject[tooltip]").tooltip({
+        content: function() {
+            var element = $(this);
+            var encoded = element.attr("tooltip");
+            var decoded = $("<div/>").html(encoded).text();
+            return decoded;
+            //return element.sibling(".meta").first().children("div.tooltip-content").first().html();
+        },
+        position: {
+            my: "left center",
+            at: "right center"
+        },
+        hide: false,
+        show: false
+    });
 });

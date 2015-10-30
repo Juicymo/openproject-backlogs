@@ -35,10 +35,11 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% has_type_icon = false if local_assigns[:has_type_icon].nil? %>
+<% is_anchor = h(story.subject).include?('{ANCHOR}') %>
 
-<li class="model story <%= mark_if_closed(story) %> <%= cycle('odd', 'even', :name => "stories") %>" id="<%= story_html_id_or_empty(story) %>">
+<li class="model story<%= ' anchor' if is_anchor %> <%= mark_if_closed(story) %> <%= cycle('odd', 'even', :name => "stories") %>" data-icon-class="<%= type_icon_class(story.type_id) %>" id="<%= story_html_id_or_empty(story) %>">
   <div class="id">
-    <div class="t"><i class="fa fa-bars"></i> <%= work_package_link_or_empty(story) %></div>
+    <div class="t"><i class="fa fa-bars"></i> #<%= work_package_link_or_empty(story) %></div>
     <div class="v"><%= id_or_empty(story) %></div>
   </div>
   <div class="story_points editable" fieldname="story_points" fieldorder="4" field_id=<%= story.id %>><%= story_points_or_empty(story) %></div>
@@ -47,13 +48,17 @@ See doc/COPYRIGHT.rdoc for more details.
     <div class="v"><%= status_id_or_default(story) %></div>
   </div>
   <div class="type_id editable" fieldtype="select" fieldname="type_id" fieldorder="1" field_id=<%= story.id %> style="font-size:smaller;">
-    <div class="t"><%= type_icon(story.type_id, icon_custom_field_id) if has_type_icon %> <%= category_tag(story.category) unless story.category.nil? %></div>
+    <div class="t"><%= type_icon(story.type_id, icon_custom_field_id) if has_type_icon and !is_anchor %><%= "<i class=\"fa fa-anchor\"></i>" if is_anchor %> <%= category_tag(story.category) unless story.category.nil? %></div>
     <div class="v"><%= type_id_or_empty(story) %></div>
   </div>
-  <div class="subject editable ellipsis" fieldname="subject" fieldorder="2" title="<%= h story.subject %>" field_id=<%= story.id %> style="font-size:smaller;"><%=h story.subject %></div>
+  <div class="subject editable ellipsis" fieldname="subject" tooltip="foo" fieldorder="2" field_id=<%= story.id %> style="font-size:smaller;">
+    <%=h story.subject.strip %>
+  </div>
   <div class="fixed_version_id"><%= story.fixed_version_id %></div>
   <div class="higher_item_id"><%= !defined?(higher_item) || higher_item.nil? ? '' : higher_item.id %></div>
   <div class="meta">
     <%= render(:partial => "shared/model_errors", :object => story.errors) if story.errors.size > 0 %>
+    <p><em><%= story.subject.gsub('{ANCHOR}', '<i class="fa fa-anchor"></i>'.strip) %></em></p>
+    <%= story.description.present? ? format_text(story, :description).strip : '' %>
   </div>
 </li>

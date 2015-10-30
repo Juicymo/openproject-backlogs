@@ -162,6 +162,34 @@ RB.Backlog = (function ($) {
     refresh : function () {
       this.recalcVelocity();
       this.recalcOddity();
+      this.colorizeCategory();
+      this.iconize();
+    },
+
+    colorizeCategory: function() {
+        $('.category-tag').each(function (index) {
+            // 'this' refers to an element with class="category-tag"
+            var text = $(this).html();
+            var sum = 0;
+            var count = text.length;
+            for (i = 0; i < count; i++) {
+                sum += text.charCodeAt(i) + 42;
+            }
+            var hue = (sum % (255 - count)) + count;
+            var bgColor = jQuery.Color({ hue: hue, saturation: 0.5, lightness: 0.8, alpha: 1 });
+            $(this).css({backgroundColor: bgColor, color: bgColor.contrastColor()});
+        });
+    },
+
+    iconize: function() {
+        var items = this.$.find('.stories li.story .type_id .t');
+        items.each(function(index) {
+            var item = $(this);
+            var count = item.children().length;
+            if (count == 1 && !item.children().first().hasClass("fa")) {
+                item.prepend("<i class=\"fa " + $(item.parent().parent()).attr('data-icon-class') + "\"></i>");
+            }
+        });
     },
 
     recalcVelocity: function () {
