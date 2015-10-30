@@ -67,8 +67,24 @@ RB.Taskboard = (function ($) {
       this.initializeNewButtons();
       this.initializeSortables();
 
+      this.colorizeCategories();
       //this.initializeSelectables();
     },
+
+      colorizeCategories : function () {
+          this.$.find('.category-tag').each(function (index) {
+              // 'this' refers to an element with class="category-tag"
+              var text = $(this).html();
+              var sum = 0;
+              var count = text.length;
+              for (i = 0; i < count; i++) {
+                  sum += text.charCodeAt(i) + 42;
+              }
+              var hue = (sum % (255 - count)) + count;
+              var bgColor = jQuery.Color({ hue: hue, saturation: 0.5, lightness: 0.8, alpha: 1 });
+              $(this).css({backgroundColor: bgColor, color: bgColor.contrastColor()});
+          });
+      },
 
     initializeSelectables : function () {
       this.$.find('.userStorySelectable').selectable();
