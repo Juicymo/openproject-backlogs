@@ -185,8 +185,7 @@ RB.Backlog = (function ($) {
         var items = this.$.find('.stories li.story .type_id .t');
         items.each(function(index) {
             var item = $(this);
-            var count = item.children().length;
-            if (count == 1 && !item.children().first().hasClass("fa")) {
+            if (!item.children().first().hasClass("fa")) {
                 item.prepend("<i class=\"fa " + $(item.parent().parent()).attr('data-icon-class') + "\"></i>");
             }
         });
