@@ -61,13 +61,13 @@ jQuery(function ($) {
     $(this).parents('.backlog').find('ul.stories').toggleClass('closed');
   });
 
-    var tooltips = $("li.model.story div.subject[tooltip]").tooltip({
+    $(document).tooltip({
+        items: "li.model.story div.subject.story-tooltip",
         content: function() {
             var element = $(this);
-            var encoded = element.attr("tooltip");
-            var decoded = $("<div/>").html(encoded).text();
-            return decoded;
-            //return element.sibling(".meta").first().children("div.tooltip-content").first().html();
+            var encoded = element.siblings(".meta").first().children("div.tooltip-content").first().html(); //element.attr("data-story-tooltip");
+            //var decoded = $("<div/>").html(encoded).text();
+            return encoded;
         },
         position: {
             my: "left center",
