@@ -72,19 +72,19 @@ module RbMasterBacklogsHelper
     items = {}
 
     items[:new_story] = content_tag(:a,
-                                    l('backlogs.add_new_story'),
+                                    "<i class=\"fa fa-plus fa-fw\"></i> #{l('backlogs.add_new_story')}".html_safe,
                                     :href => '#',
                                     :class => 'add_new_story')
 
     if backlog.sprint_backlog? or ['Review', 'Bugs', 'Requirements'].include?(backlog.sprint.name)
-      items[:task_board] = link_to(l(:label_task_board),
+      items[:task_board] = link_to("<i class=\"fa fa-thumb-tack fa-fw\"></i> #{l(:label_task_board)}".html_safe,
                                  :controller => '/rb_taskboards',
                                  :action => 'show',
                                  :project_id => @project,
                                  :sprint_id => backlog.sprint)
     end
 
-    items[:stories_tasks] = link_to(l(:label_stories_tasks),
+    items[:stories_tasks] = link_to("<i class=\"fa fa-tasks fa-fw\"></i> #{l(:label_stories_tasks)}".html_safe,
                                     :controller => '/rb_queries',
                                     :action => 'show',
                                     :project_id => @project,
@@ -103,7 +103,7 @@ module RbMasterBacklogsHelper
 
   def export_export_cards_link(backlog)
     if @export_card_config_meta[:count] == 1
-      link_to(l(:label_backlogs_export_card_export),
+      link_to("<i class=\"fa fa-share-square-o fa-fw\"></i> #{l(:label_backlogs_export_card_export)}".html_safe,
         :controller => '/rb_export_card_configurations',
         :action => 'show',
         :project_id => @project,
@@ -120,31 +120,31 @@ module RbMasterBacklogsHelper
 
     version_path = edit_version_path(backlog.sprint, :back_url => back_path)
 
-    link_to(l(:'backlogs.properties'), version_path)
+    link_to("<i class=\"fa fa-cog fa-fw\"></i> #{l(:'backlogs.properties')}".html_safe, version_path)
   end
 
   def export_modal_link(backlog, options = {})
     path = backlogs_project_sprint_export_card_configurations_path(@project.id, backlog.sprint.id)
     html_id = "modal_work_package_#{SecureRandom.hex(10)}"
-    link_to(l(:label_backlogs_export_card_export), path, options.merge(:id => html_id, :'data-modal' => ''))
+    link_to("<i class=\"fa fa-share-square-o fa-fw\"></i> #{l(:label_backlogs_export_card_export)}".html_safe, path, options.merge(:id => html_id, :'data-modal' => ''))
   end
 
   def sprint_backlog_menu_items_for(backlog)
     items = {}
 
-    items[:commit] = link_to(l(:label_commit),
+    items[:commit] = link_to("<i class=\"fa fa-check fa-fw\"></i> #{l(:label_commit)}".html_safe,
                              :controller => '/rb_sprints',
                              :action => 'commit',
                              :project_id => @project,
                              :sprint_id => backlog.sprint)
 
-    items[:review] = link_to(l(:label_review_meeting),
+    items[:review] = link_to("<i class=\"fa fa-thumbs-o-up fa-fw\"></i> #{l(:label_review_meeting)}".html_safe,
                              :controller => '/rb_sprints',
                              :action => 'commit',
                              :project_id => @project,
                              :sprint_id => backlog.sprint)
 
-    items[:retro] = link_to(l(:label_retro_meeting),
+    items[:retro] = link_to("<i class=\"fa fa-birthday-cake fa-fw\"></i> #{l(:label_retro_meeting)}".html_safe,
                              :controller => '/rb_sprints',
                              :action => 'commit',
                              :project_id => @project,
@@ -152,13 +152,13 @@ module RbMasterBacklogsHelper
 
     if backlog.sprint.has_burndown?
       items[:burndown] = content_tag(:a,
-                                     l('backlogs.show_burndown_chart'),
+                                     "<i class=\"fa fa-line-chart fa-fw\"></i> #{l('backlogs.show_burndown_chart')}".html_safe,
                                      :href => '#',
                                      :class => 'show_burndown_chart')
     end
 
     if @project.module_enabled? "wiki"
-      items[:wiki] = link_to(l(:label_wiki),
+      items[:wiki] = link_to("<i class=\"fa fa-book fa-fw\"></i> #{l(:label_wiki)}".html_safe,
                              :controller => '/rb_wikis',
                              :action => 'edit',
                              :project_id => @project,
