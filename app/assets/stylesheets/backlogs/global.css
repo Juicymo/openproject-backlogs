@@ -73,3 +73,7 @@ div.menu div i.fa.fa-bars {
     padding-left: 0.5em;
     padding-top: 0.7em;
 }
+
+.ui-dialog-titlebar .ui-button span.ui-icon-closethick {
+    float: left;
+}
