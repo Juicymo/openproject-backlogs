@@ -202,7 +202,7 @@ RB.Backlog = (function ($) {
       this.getStories().each(function (index) {
         total += $(this).data('this').getPoints();
       });
-      this.$.children('.header').children('.velocity').text(total);
+      this.$.children('.header').children('.velocity').html(this.$.parent().attr('id') == 'sprint_backlogs_container' ? ("" + total + "/" + "-") : (total));
     },
 
     recalcOddity : function () {
