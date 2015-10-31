@@ -119,9 +119,10 @@ See doc/COPYRIGHT.rdoc for more details.
         <col span="<%= @statuses %>">
       </colgroup>
       <% @sprint.stories(@project).each do |story| %>
+          <% is_anchor = h(story.subject).include?('{ANCHOR}') %>
         <tr class="<%= story_html_id_or_empty(story) %>">
           <td data-col="0">
-            <div class="story ui-widget-content <%= mark_if_closed(story) %>" id="<%= story_html_id_or_empty(story) %>">
+            <div class="story ui-widget-content story-tooltip <%= mark_if_closed(story) %>" id="<%= story_html_id_or_empty(story) %>">
               <div class='story-bar'>
                 <div class="status">
                   <%= type_icon(story.type.id, 0) if story.present? and story.type.present? %>
@@ -144,6 +145,10 @@ See doc/COPYRIGHT.rdoc for more details.
                 <div class="story-points">
                    <%= "<i class=\"fa fa-gamepad\"></i> #{story.story_points}".html_safe if story.story_points.present? %>
                 </div>
+              </div>
+              <div class="story-tooltip-content hide">
+                <p class="name"><%= type_icon(story.type_id, 1) if !is_anchor %><%= "<i class=\"fa fa-anchor\"></i>".html_safe if is_anchor %> <%= category_tag(story.category) unless story.category.nil? %> <em><%= story.subject.gsub('{ANCHOR}', ''.html_safe).strip %></em> (#<%= work_package_link_or_empty(story) %>)</p>
+                <%= story.description.present? ? format_text(story, :description).strip.html_safe : '' %>
               </div>
             </div>
           </td>

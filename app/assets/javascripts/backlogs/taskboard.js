@@ -69,7 +69,26 @@ RB.Taskboard = (function ($) {
 
       this.colorizeCategories();
       this.initializeSelectables();
+
+      this.initializeTooltip();
     },
+
+      initializeTooltip : function () {
+          $(document).tooltip({
+              items: "div.story.story-tooltip",
+              content: function() {
+                  var element = $(this);
+                  var content = element.children("div.story-tooltip-content").first().html();
+                  return content;
+              },
+              position: {
+                  my: "left center",
+                  at: "right center"
+              },
+              hide: false,
+              show: false
+          });
+      },
 
       colorizeCategories : function () {
           this.$.find('.category-tag').each(function (index) {
