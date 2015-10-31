@@ -62,12 +62,20 @@ jQuery(function ($) {
   });
 
     $(document).tooltip({
-        items: "li.model.story div.subject.story-tooltip",
+        items: "li.model.story div.subject.story-tooltip, div.story.story-tooltip",
         content: function() {
             var element = $(this);
-            var encoded = element.siblings(".meta").first().children("div.tooltip-content").first().html(); //element.attr("data-story-tooltip");
-            //var decoded = $("<div/>").html(encoded).text();
-            return encoded;
+
+            if (element.is("li.model.story div.subject.story-tooltip")) {
+                var encoded = element.siblings(".meta").first().children("div.tooltip-content").first().html(); //element.attr("data-story-tooltip");
+                //var decoded = $("<div/>").html(encoded).text();
+                return encoded;
+            }
+            else if (element.is("div.story.story-tooltip")) {
+                var element = $(this);
+                var content = element.children("div.story-tooltip-content").first().html();
+                return content;
+            }
         },
         position: {
             my: "left center",
