@@ -48,11 +48,12 @@ See doc/COPYRIGHT.rdoc for more details.
   <% backlogs_types.each do |type| %>
   <li><%= type_icon(type.id, 0) if type.present? %> <%= type.name %></li>
   <% end %>
-  <li class="sprint-date"><%= @sprint.start_date.strftime("%d/%m/%Y") %> - <%= @sprint.effective_date.strftime("%d/%m/%Y") %></li>
+  <% if @sprint.start_date.present? and @sprint.effective_date.present? %>
+  <li class="sprint-date"><%= @sprint.start_date.strftime("%d/%m/%Y") %> - <%= @sprint.effective_date.strftime("%d/%m/%Y") %> (<%= TimeDifference.between(@sprint.start_date, @sprint.effective_date).in_weeks %> weeks)</li>
+  <% end %>
 </ul>
 
 <%= toolbar title: h("<i class=\"fa fa-thumb-tack\"></i> #{@sprint.name}".html_safe) do %>
-  <% if @sprint.has_burndown? %>
     <!--<li class="toolbar-item">
       <label for="col_width_input"><%= l('backlogs.column_width') %></label>
     </li>
@@ -75,6 +76,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <!--<li class="toolbar-item">
       <a href="#" title="<%= l('backlogs.generate_tasks_hint') %>" class="button"><i class="fa fa-cogs"></i> <%= l('backlogs.generate_tasks') %></a>
     </li>-->
+  <% if @sprint.has_burndown? %>
     <li class="toolbar-item">
       <%= show_burndown_link(@sprint) %>
     </li>

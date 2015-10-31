@@ -64,3 +64,12 @@ See doc/COPYRIGHT.rdoc for more details.
 th {
   font-weight: bold;
 }
+
+button.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-icon-only.ui-dialog-titlebar-close {
+    width: 4em;
+}
+
+div.menu div i.fa.fa-bars {
+    padding-left: 0.5em;
+    padding-top: 0.7em;
+}

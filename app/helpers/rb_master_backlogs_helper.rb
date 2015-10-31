@@ -41,7 +41,7 @@ module RbMasterBacklogsHelper
   def render_backlog_menu(backlog)
     content_tag(:div, :class => 'menu') do
       [
-        content_tag(:div, '', :class => "ui-icon ui-icon-carat-1-s"),
+        content_tag(:div, '<i class="fa fa-bars"></i>'.html_safe),
         content_tag(:ul, :class => 'items') do
 
           backlog_menu_items_for(backlog).map do |item|
@@ -59,9 +59,9 @@ module RbMasterBacklogsHelper
     if backlog.sprint_backlog?
       items.merge!(sprint_backlog_menu_items_for(backlog))
     end
-    
+
     menu = []
-    [:new_story, :stories_tasks, :task_board, :burndown, :cards, :wiki, :configs, :properties].each do |key|
+    [:new_story, :task_board, :commit, :review, :retro, :burndown, :wiki, :stories_tasks, :cards, :configs, :properties].each do |key|
       menu << items[key] if items.keys.include?(key)
     end
 
@@ -75,6 +75,14 @@ module RbMasterBacklogsHelper
                                     l('backlogs.add_new_story'),
                                     :href => '#',
                                     :class => 'add_new_story')
+
+    if backlog.sprint_backlog? or ['Review', 'Bugs', 'Requirements'].include?(backlog.sprint.name)
+      items[:task_board] = link_to(l(:label_task_board),
+                                 :controller => '/rb_taskboards',
+                                 :action => 'show',
+                                 :project_id => @project,
+                                 :sprint_id => backlog.sprint)
+    end
 
     items[:stories_tasks] = link_to(l(:label_stories_tasks),
                                     :controller => '/rb_queries',
@@ -124,11 +132,23 @@ module RbMasterBacklogsHelper
   def sprint_backlog_menu_items_for(backlog)
     items = {}
 
-    items[:task_board] = link_to(l(:label_task_board),
-                                 :controller => '/rb_taskboards',
-                                 :action => 'show',
-                                 :project_id => @project,
-                                 :sprint_id => backlog.sprint)
+    items[:commit] = link_to(l(:label_commit),
+                             :controller => '/rb_sprints',
+                             :action => 'commit',
+                             :project_id => @project,
+                             :sprint_id => backlog.sprint)
+
+    items[:review] = link_to(l(:label_review_meeting),
+                             :controller => '/rb_sprints',
+                             :action => 'commit',
+                             :project_id => @project,
+                             :sprint_id => backlog.sprint)
+
+    items[:retro] = link_to(l(:label_retro_meeting),
+                             :controller => '/rb_sprints',
+                             :action => 'commit',
+                             :project_id => @project,
+                             :sprint_id => backlog.sprint)
 
     if backlog.sprint.has_burndown?
       items[:burndown] = content_tag(:a,

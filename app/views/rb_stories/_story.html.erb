@@ -39,7 +39,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <li class="model story<%= ' anchor' if is_anchor %> <%= mark_if_closed(story) %> <%= cycle('odd', 'even', :name => "stories") %>" data-icon-class="<%= type_icon_class(story.type_id) %>" id="<%= story_html_id_or_empty(story) %>">
   <div class="id">
-    <div class="t"><i class="fa fa-bars"></i> #<%= work_package_link_or_empty(story) %></div>
+    <div class="t"><i class="story-drag-handle fa fa-arrows"></i> #<%= work_package_link_or_empty(story) %></div>
     <div class="v"><%= id_or_empty(story) %></div>
   </div>
   <div class="story_points editable" fieldname="story_points" fieldorder="4" field_id=<%= story.id %>><%= story_points_or_empty(story) %></div>

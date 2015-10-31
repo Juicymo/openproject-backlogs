@@ -44,6 +44,9 @@ OpenProject::Application.routes.draw do
       resource    :server_variables, :controller => :rb_server_variables, :only => :show, :format => :js
 
       resources   :sprints,          :controller => :rb_sprints,          :only => :update do
+        member do
+          put 'commit'
+        end
 
         resource  :query,            :controller => :rb_queries,          :only => :show
 

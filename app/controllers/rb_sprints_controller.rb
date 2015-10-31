@@ -51,6 +51,10 @@ class RbSprintsController < RbApplicationController
     end
   end
 
+  def commit
+    # TODO
+  end
+
   # Overwrite load_sprint_and_project to load the sprint from the :id instead of
   # :sprint_id
   def load_sprint_and_project
