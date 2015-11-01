@@ -51,6 +51,79 @@ class Task < WorkPackage
     [self.type]
   end
 
+  def self.create_tasks_for_stories story_ids, user_ids
+    raw_stories = Story.find(story_ids).map{|s| [s.id, s]}
+    stories = Hash[raw_stories]
+
+    raw_users = User.find(user_ids).map{|u| [u.id, u]}
+    users = Hash[raw_users]
+    user_count = user_ids.size
+
+    created = 0
+    ok = true
+    errors = []
+    story_ids.each do |story_id|
+      story = stories[story_id]
+      story_points_to_be_divided = 0
+      if story.story_points.present?
+        tasks = story.tasks
+        assigned_story_points = tasks.any? ? story.tasks.map{|t|t.story_points.present? ? t.story_points : 0}.reduce(:+) : 0
+        story_points_to_be_divided = story.story_points - assigned_story_points
+      end
+
+      is_first_user = true
+      user_ids.each do |user_id|
+        user = users[user_id]
+        task = new
+
+        task.author = User.current
+        task.assigned_to = user
+        task.type_id = Task.type
+
+        task.project_id = story.project_id
+        task.fixed_version = story.fixed_version
+        task.subject = story.subject.gsub('{ANCHOR}', '')
+
+        task.category = story.category if story.category.present?
+        task.description = story.description if story.description.present?
+        task.priority = story.priority if story.priority.present?
+        task.responsible = story.responsible if story.responsible.present?
+        task.start_date = story.start_date if story.start_date.present?
+        task.due_date = story.due_date if story.due_date.present?
+
+        if story.story_points.present?
+          if story_points_to_be_divided > 0
+            points = story_points_to_be_divided / user_count
+
+            if is_first_user
+              addition = story_points_to_be_divided % user_count
+              points += addition
+            end
+
+            task.story_points = points
+          else
+            task.story_points = 0
+          end
+        end
+
+        task.parent_id = story.id
+
+        if !task.save
+          errors << task.errors.full_messages
+        else
+          created += 1
+          is_first_user = false
+        end
+      end
+    end
+
+    if ok
+      return "OK", created
+    else
+      return errors.join(';'), created
+    end
+  end
+
   def self.create_with_relationships(params, project_id)
     task = new
 

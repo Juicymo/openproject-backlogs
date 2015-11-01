@@ -179,10 +179,11 @@ $juicymo_yellow:                                #ffb33f !default
       background-color: #EE0000
       bottom: -5px
       color: #FFFFFF
-      font-size: 9px
-      height: 13px
+      font-size: 12px
+      height: 20px
       padding-left: 5px
       padding-right: 5px
+      padding-top: 2px
       position: absolute
       right: -5px
     .blocks, .remaining_hours.editable.empty
@@ -270,8 +271,10 @@ $juicymo_yellow:                                #ffb33f !default
     margin-bottom: 10px
     width: 100%
   .subject
+    width: 265px
+  .description
     height: 65px
-    width: 272px
+    width: 265px
   .remaining_hours, .blocks
     width: 268px
 
@@ -447,4 +450,24 @@ ul.legacy-actions-main>li.sprint-date
   max-width: 600px
   padding: 0.5em
   border-radius: 0
+
+li.controls-item
+  position: absolute
+
+li.controls-item div.controls
+  position: relative
+  top: 3em
+
+li.controls-item div.controls a.cancel, li.controls-item div.controls a.cancel:link
+  color: gray
+  font-size: smaller
+
+li.controls-item div.controls a.cancel, li.controls-item div.controls a:hover
+  color: $juicymo_orange
+
+#rb .work_package.saving .indicator
+  padding: 2em
+  border: none
+  left: 5.5em
+  top: 3em
 

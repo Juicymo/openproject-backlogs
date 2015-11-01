@@ -64,10 +64,12 @@ See doc/COPYRIGHT.rdoc for more details.
       <% @project.possible_assignees.each do |user| %>
           <a class="face" href="javascript:;" data-user-id="<%= user.id %>"><%= avatar(user, class: 'avatar', title: user.name).html_safe %></a>
       <% end %>
-      <div class="controls">
+    </li>
+    <li class="toolbar-item controls-item">
+      <div class="controls" style="display: none;">
         <span class="hint" title="Select project members for whom Task should be created"><em>Select member(s)...</em></span>
-        <a href="javascript:;" class="cancel" style="display: none;" title="Cancel task creation and deselect User Stories"><i class="fa fa-close"></i> Cancel</a>
         <a href="javascript:;" class="ok" style="display: none;" title="For every selected user, task corresponding to each User Story will be created and assigned"><i class="fa fa-check"></i> Create Tasks</a>
+        <a href="javascript:;" class="cancel" style="display: none;" title="Cancel task creation and deselect User Stories"><i class="fa fa-close"></i> Cancel</a>
       </div>
     </li>
     <li class="toolbar-item">

@@ -75,7 +75,7 @@ module OpenProject::Backlogs
         }
 
         permission :view_taskboards,     {
-          :rb_taskboards       => :show,
+          :rb_taskboards       => [:show, :create_tasks],
           :rb_sprints          => :show,
           :rb_stories          => :show,
           :rb_tasks            => [:index, :show],

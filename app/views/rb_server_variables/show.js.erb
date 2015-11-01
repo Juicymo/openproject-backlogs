@@ -60,13 +60,15 @@ RB.urlFor = (function () {
     create_impediment: '<%= backlogs_project_sprint_impediments_path(:project_id => @project.identifier, :sprint_id => ":sprint_id") %>',
     update_impediment: '<%= backlogs_project_sprint_impediment_path(:project_id => @project.identifier, :sprint_id => ":sprint_id", :id => ":id") %>',
 
+    create_tasks: '<%= create_tasks_for_stories_path(:project_id => @project.identifier, :sprint_id => ":sprint_id", :user_ids => ":user_ids", :story_ids => ":story_ids") %>',
+
     show_burndown_chart: '<%= backlogs_project_sprint_burndown_chart_path(:project_id => @project.identifier, :sprint_id => ":sprint_id") %>'
   };
 
   return function (routeName, options) {
     route = routes[routeName];
 
-    if (options){
+    if (options) {
       if (options.id) {
         route = route.replace(":id", options.id);
       }
@@ -75,6 +77,12 @@ RB.urlFor = (function () {
       }
       if(options.sprint_id) {
         route = route.replace(":sprint_id", options.sprint_id)
+      }
+      if(options.story_ids) {
+        route = route.replace(":story_ids", options.story_ids)
+      }
+      if(options.user_ids) {
+        route = route.replace(":user_ids", options.user_ids)
       }
     }
 

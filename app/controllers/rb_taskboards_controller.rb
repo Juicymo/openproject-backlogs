@@ -48,6 +48,29 @@ class RbTaskboardsController < RbApplicationController
                               :order      => "updated_at DESC")
   end
 
+  def create_tasks
+    allowed_story_ids    = @sprint.stories(@project).map{|s| s.id}
+    allowed_user_ids    = @project.possible_assignees.map{|u| u.id}
+
+    story_ids     = params[:story_ids].split('-').map{|i|i.to_i}
+    user_ids      = params[:user_ids].split('-').map{|i|i.to_i}
+
+    story_ids.reject! { |x| not allowed_story_ids.include? x }
+    user_ids.reject! { |x| not allowed_user_ids.include? x }
+
+    if story_ids.size > 0 and user_ids.size > 0
+      msg, created = Task.create_tasks_for_stories story_ids, user_ids
+
+      if msg == 'OK'
+        render :json => { :status => 'OK', :message => "Created #{created} tasks" }
+      else
+        render :json => { :status => msg, :message => msg.split(';') }
+      end
+    else
+      render :json => { :status => 'Error', :message => 'Invalid input - ' + story_ids.inspect + '/' + allowed_story_ids.inspect + ' | ' + user_ids.inspect + '/' + allowed_user_ids.inspect }
+    end
+  end
+
   def default_breadcrumb
     l(:label_backlogs)
   end

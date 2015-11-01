@@ -134,6 +134,7 @@ RB.Taskboard = (function ($) {
 
               if (count > 0) {
                   faces.fadeIn();
+                  controls.fadeIn();
 
                   var ids = [];
                   selectedItems.each(function() {
@@ -145,6 +146,7 @@ RB.Taskboard = (function ($) {
               }
               else {
                   faces.fadeOut();
+                  controls.fadeOut();
               }
 
               //Reset selector.
@@ -192,6 +194,7 @@ RB.Taskboard = (function ($) {
 
           if (count > 0) {
               faces.fadeIn();
+              controls.fadeIn();
 
               var ids = [];
               selectedItems.each(function() {
@@ -203,10 +206,16 @@ RB.Taskboard = (function ($) {
           }
           else {
               faces.fadeOut();
+              controls.fadeOut();
           }
       });
 
-        $('li.member-faces div.controls a.cancel').click(function() {
+        $('li div.controls a.cancel').click(function() {
+            var hint = $("div.controls span.hint").first();
+            var buttons = $("div.controls a");
+            buttons.css('display', 'none');
+            hint.css('display', 'inline');
+
             var selectedItems = $(".userStorySelectable .ui-selected, .selectableFaces .ui-selected");
 
             selectedItems.each(function() {
@@ -217,8 +226,66 @@ RB.Taskboard = (function ($) {
 
             var controls = $("div.controls").first();
             controls.attr("data-user-stories", "");
+            controls.attr("data-members", "");
+            controls.fadeOut();
             var faces = $("li.member-faces").first();
             faces.fadeOut();
+        });
+
+        $('li div.controls a.ok').click(function(e) {
+            e.preventDefault();
+            var controls = $("div.controls").first();
+            var hint = $("div.controls span.hint").first();
+            var buttons = $("div.controls a");
+            buttons.css('display', 'none');
+            hint.css('display', 'inline');
+            hint.html('<i class="fa fa-spinner fa-spin"></i> <em>Working...</em>');
+
+            var data = "utf8=%E2%9C%93&" + "_method=post" + (RB.constants.protect_against_forgery ? ("&" + RB.constants.request_forgery_protection_token + "=" + RB.constants.form_authenticity_token) : "")
+            var url = RB.urlFor('create_tasks', {
+                project_id: RB.constants.project_id,
+                sprint_id: RB.constants.sprint_id,
+                user_ids: controls.attr("data-members").replace(/,/g, '-'),
+                story_ids: controls.attr("data-user-stories").replace(/,/g, '-')
+            });
+
+            RB.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                success   : function (d, t, x) {
+                    if (d.status == 'Error') {
+                        RB.Dialog.msg(d.message);
+                    }
+                    else {
+                        var selectedItems = $(".userStorySelectable .ui-selected");
+                        //hint.css('display', 'none');
+                        //buttons.css('display', 'inline');
+                        //hint.html('<em>Select member(s)...</em>');
+
+                        selectedItems.each(function() {
+                            var item = $(this);
+
+                            item.removeClass("ui-selected");
+                        });
+
+                        //var controls = $("div.controls").first();
+                        controls.attr("data-user-stories", "");
+                        //controls.attr("data-members", "");
+                        hint.html('<em>' + d.message + '</em>');
+                        //controls.fadeOut();
+                        //var faces = $("li.member-faces").first();
+                        //faces.fadeOut();
+
+                        window.location.reload();
+                    }
+                },
+                error     : function (x, t, e) {
+                    RB.Dialog.msg('Operation failed ' + $(x.responseText).html());
+                }
+            });
+
+            return false;
         });
     },
 

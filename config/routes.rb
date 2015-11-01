@@ -73,4 +73,5 @@ OpenProject::Application.routes.draw do
   get  'projects/:project_id/versions/:id/edit' => 'version_settings#edit'
   post  'projects/:id/project_done_statuses' => 'projects#project_done_statuses'
   post 'projects/:id/rebuild_positions' => 'projects#rebuild_positions'
+  post  'projects/:project_id/create-tasks-in-sprint/:sprint_id/for-stories/:story_ids/with-users/:user_ids' => 'rb_taskboards#create_tasks', :as => 'create_tasks_for_stories'
 end
