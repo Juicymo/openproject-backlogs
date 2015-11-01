@@ -36,6 +36,12 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% has_type_icon = false if local_assigns[:has_type_icon].nil? %>
 <% is_anchor = h(story.subject).include?('{ANCHOR}') %>
+<% description_placeholder = <<INPUT
+*As a User*
+*I want to*
+*So then*
+INPUT
+%>
 
 <li class="model story<%= ' anchor' if is_anchor %> <%= mark_if_closed(story) %> <%= cycle('odd', 'even', :name => "stories") %>" data-icon-class="<%= type_icon_class(story.type_id) %>" id="<%= story_html_id_or_empty(story) %>">
   <div class="id">
@@ -51,9 +57,8 @@ See doc/COPYRIGHT.rdoc for more details.
     <div class="t"><%= type_icon(story.type_id, icon_custom_field_id) if has_type_icon and !is_anchor %><%= "<i class=\"fa fa-anchor\"></i>".html_safe if is_anchor %> <%= category_tag(story.category) unless story.category.nil? %></div>
     <div class="v"><%= type_id_or_empty(story) %></div>
   </div>
-  <div class="subject editable ellipsis story-tooltip" fieldname="subject" data-story-tooltip="foo" fieldorder="2" field_id=<%= story.id %> style="font-size:smaller;">
-    <%=h story.subject.strip %>
-  </div>
+  <div class="subject editable ellipsis story-tooltip" fieldname="subject" fieldorder="2" field_id=<%= story.id %> style="font-size:smaller;"><%=h story.subject.strip %></div>
+  <div class="description editable hide" fieldtype="textarea" fieldname="description" fieldorder="5" field_id=<%= story.id %>><%= story.description.present? ? story.description : description_placeholder %></div>
   <div class="fixed_version_id"><%= story.fixed_version_id %></div>
   <div class="higher_item_id"><%= !defined?(higher_item) || higher_item.nil? ? '' : higher_item.id %></div>
   <div class="meta">

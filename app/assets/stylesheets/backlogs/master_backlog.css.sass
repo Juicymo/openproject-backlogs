@@ -229,10 +229,12 @@ $juicymo_yellow:                                #ffb33f !default
         background-image: image-url("loading.gif")
         background-repeat: no-repeat
         background-position: center
+        padding: 0.3em
       &.error
         background-image: image-url("webalys/warning.png")
         background-repeat: no-repeat
         background-position: center
+        padding: 0.3em
       &.hover, &:hover
         background-color: rgb(254, 248, 168)
       .id
@@ -268,6 +270,9 @@ $juicymo_yellow:                                #ffb33f !default
         width: 28px
         min-height: 14px
         text-align: right
+      .description.editor
+        height: 6em
+        font-size: smaller
       .type_id .v, .id .v, .status_id .v, .fixed_version_id, .higher_item_id
         display: none
 
@@ -340,18 +345,29 @@ $juicymo_yellow:                                #ffb33f !default
       // reset the line-height (foundation sets it to "normal" but that does not work here)
       line-height: inherit
     .type_id.editor
-      width: 15%
+      width: 16%
       /* sets max-width for IE */
       max-width: 140px
       /* for the cool guys */
+      &:focus
+        box-shadow: 0 0 2px $juicymo_orange
     .subject.editor
       width: 60%
+      &:focus
+        box-shadow: 0 0 2px $juicymo_orange
     .status_id.editor
       width: 15%
       float: right
+      &:focus
+        box-shadow: 0 0 2px $juicymo_orange
     .story_points.editor
       float: right
       width: 5%
+      &:focus
+        box-shadow: 0 0 2px $juicymo_orange
+    .description.editor
+      &:focus
+        box-shadow: 0 0 2px $juicymo_orange
 
 .category-tag
   -webkit-border-radius: 20px
@@ -383,3 +399,4 @@ li.story:hover div.t i.fa.story-drag-handle
 
 li.story div.id div.t
   font-size: smaller
+
