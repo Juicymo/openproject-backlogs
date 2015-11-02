@@ -242,6 +242,52 @@ RB.Model = (function ($) {
           for: input.attr('id'),
         }).text(fieldLabel).appendTo(editor);
         input.appendTo(editor);
+
+          // Add popup if field has poprized class
+          if (field.hasClass("poprized")) {
+              var box = $('.popup-box.hide').first().clone();
+              input.after(box);
+
+              var inputizedBox = input.siblings('.popup-box');
+              inputizedBox.removeClass('hide');
+              inputizedBox.popmenu({
+                  'controller': true,       // use control button or not
+                  'width': '90px',          // width of menu
+                  'background': '#ffb33f',  // background color of menu
+                  'focusColor': '#ff6b29',  // hover color of menu's buttons
+                  'borderRadius': '0',      // radian of angles, '0' for right angle
+                  'top': '0',               // pixels that move up
+                  'left': '40',             // pixels that move left
+                  'iconSize': '30px'        // size of menu's buttons
+              });
+
+              inputizedBox.find('ul li.pop_li a').click(function() {
+                  var number = $(this).children('div').text();
+                  input.val(number);
+
+                  if (parseInt(number) > 20) {
+                      var type_select = inputizedBox.siblings('select.editor.type_id').first();
+                      var epic_id = type_select.children('option').filter(function(index) {
+                          return $(this).html().trim() == 'Epic';
+                      }).first().val();
+
+                      if (typeof epic_id !== "undefined") {
+                          type_select.val(epic_id);
+                      }
+                  }
+                  else {
+                      var type_select = inputizedBox.siblings('select.editor.type_id').first();
+                      var user_story_id = type_select.children('option').filter(function(index) {
+                          return $(this).html().trim() == 'User Story';
+                      }).first().val();
+
+                      if (typeof user_story_id !== "undefined") {
+                          type_select.val(user_story_id);
+                      }
+                  }
+                  inputizedBox.children('ul').fadeOut();
+              });
+          }
       });
 
       this.displayEditor(editor);

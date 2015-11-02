@@ -50,6 +50,18 @@ See doc/COPYRIGHT.rdoc for more details.
 </ul>
 
 <div class='contextual'></div>
+<div class="popup-box hide">
+    <div class="pop_ctrl"><i class="fa fa-gamepad"></i></div>
+    <ul id="pop_ul">
+    <% [1,2,3,5,8,13,20,40,100].each do |i| %>
+      <li class="pop_li">
+        <a href="javascript:;">
+          <div><%= i %></div>
+        </a>
+      </li>
+    <% end %>
+    </ul>
+</div>
 <%= toolbar title: "<i class=\"fa fa-tachometer\"></i> #{l(:label_backlogs_overview)}" do %>
   <% current_backlog = @sprint_backlogs.first %>
   <% if current_backlog.present? %>
