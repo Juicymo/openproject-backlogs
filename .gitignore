@@ -8,3 +8,4 @@ assets/styles
 graph.dot
 *.swp
 node_modules
+.DS_Store
